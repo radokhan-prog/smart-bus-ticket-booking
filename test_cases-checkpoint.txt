@@ -1,0 +1,510 @@
+SMART BUS RESERVATION SYSTEM - TEST CASES
+============================================================
+Every test was run as a fresh session of main.py (clean in-memory data).
+The 'Actual result' is the real program output, with the repeated main menu
+replaced by the marker [main menu displayed] to keep it short.
+
+------------------------------------------------------------
+TC-01  View all routes
+------------------------------------------------------------
+Input / action : Menu 1 -> sub-menu 1 (All routes), then Exit.
+Expected result: All five routes and seat status appear.
+Actual result  :
+    [main menu displayed]
+    Enter your choice: 1
+    
+    VIEW ROUTES
+    1. All routes
+    2. Only routes with seats available
+    3. Route schedule by departure city
+    Enter your choice: 1
+    
+    AVAILABLE BUS ROUTES
+    No. | Route | Journey | Depart | Fare | Seats
+    1 | R101 | Karachi -> Hyderabad | 08:00 AM | Rs.1200 | 40/40
+    2 | R102 | Karachi -> Sukkur | 09:30 AM | Rs.2000 | 36/36
+    3 | R103 | Hyderabad -> Mirpur Khas | 11:00 AM | Rs.800 | 32/32
+    4 | R104 | Karachi -> Lahore | 07:00 PM | Rs.5000 | 45/45
+    5 | R105 | Sukkur -> Hyderabad | 02:00 PM | Rs.1500 | 30/30
+    [main menu displayed]
+    Enter your choice: 8
+    Thank you for using the Smart Bus Reservation System. Goodbye!
+Matched        : Yes
+
+------------------------------------------------------------
+TC-02  Search Hyderabad
+------------------------------------------------------------
+Input / action : Menu 2, search term: hyderabad (lower case).
+Expected result: Routes departing from or arriving at Hyderabad appear (R101, R103, R105).
+Actual result  :
+    [main menu displayed]
+    Enter your choice: 2
+    Search by route ID or city: hyderabad
+    
+    R101 | Karachi -> Hyderabad | Rs. 1200 | 40 seats available
+    R103 | Hyderabad -> Mirpur Khas | Rs. 800 | 32 seats available
+    R105 | Sukkur -> Hyderabad | Rs. 1500 | 30 seats available
+    [main menu displayed]
+    Enter your choice: 8
+    Thank you for using the Smart Bus Reservation System. Goodbye!
+Matched        : Yes
+
+------------------------------------------------------------
+TC-03  Unknown city
+------------------------------------------------------------
+Input / action : Menu 2, search term: Atlantis.
+Expected result: No-match message; program continues (menu is shown again).
+Actual result  :
+    [main menu displayed]
+    Enter your choice: 2
+    Search by route ID or city: Atlantis
+    
+    No matching routes found.
+    [main menu displayed]
+    Enter your choice: 8
+    Thank you for using the Smart Bus Reservation System. Goodbye!
+Matched        : Yes
+
+------------------------------------------------------------
+TC-04  Book two seats
+------------------------------------------------------------
+Input / action : Menu 3: Ahmed, age 24, R101, 2 seats. Then Menu 1 -> 1 to check availability.
+Expected result: Booking confirmed for Rs. 2400 (2 x Rs. 1200); R101 availability drops from 40 to 38.
+Actual result  :
+    [main menu displayed]
+    Enter your choice: 3
+    
+    BOOK A TICKET
+    Enter passenger name: Ahmed
+    Enter passenger age: 24
+    Enter route ID (for example R101): R101
+    Enter number of seats: 2
+    
+    Booking confirmed!
+    Booking ID: B1001
+    Passenger: Ahmed
+    Route: R101 (Karachi -> Hyderabad)
+    Seats booked: 2
+    Fare per seat: Rs. 1200
+    Total fare: Rs. 2400
+    Status: Confirmed
+    [main menu displayed]
+    Enter your choice: 1
+    
+    VIEW ROUTES
+    1. All routes
+    2. Only routes with seats available
+    3. Route schedule by departure city
+    Enter your choice: 1
+    
+    AVAILABLE BUS ROUTES
+    No. | Route | Journey | Depart | Fare | Seats
+    1 | R101 | Karachi -> Hyderabad | 08:00 AM | Rs.1200 | 38/40
+    2 | R102 | Karachi -> Sukkur | 09:30 AM | Rs.2000 | 36/36
+    3 | R103 | Hyderabad -> Mirpur Khas | 11:00 AM | Rs.800 | 32/32
+    4 | R104 | Karachi -> Lahore | 07:00 PM | Rs.5000 | 45/45
+    5 | R105 | Sukkur -> Hyderabad | 02:00 PM | Rs.1500 | 30/30
+    [main menu displayed]
+    Enter your choice: 8
+    Thank you for using the Smart Bus Reservation System. Goodbye!
+Matched        : Yes
+
+------------------------------------------------------------
+TC-05  Zero seats
+------------------------------------------------------------
+Input / action : Menu 3: Ahmed, 24, R101, seats = 0. Then Menu 4 and Menu 1 -> 1 to check nothing changed.
+Expected result: Rejected; no booking created and no seat change (R101 still 40/40).
+Actual result  :
+    [main menu displayed]
+    Enter your choice: 3
+    
+    BOOK A TICKET
+    Enter passenger name: Ahmed
+    Enter passenger age: 24
+    Enter route ID (for example R101): R101
+    Enter number of seats: 0
+    Booking failed: seats must be a positive whole number.
+    [main menu displayed]
+    Enter your choice: 4
+    
+    MY BOOKINGS
+    No bookings found.
+    [main menu displayed]
+    Enter your choice: 1
+    
+    VIEW ROUTES
+    1. All routes
+    2. Only routes with seats available
+    3. Route schedule by departure city
+    Enter your choice: 1
+    
+    AVAILABLE BUS ROUTES
+    No. | Route | Journey | Depart | Fare | Seats
+    1 | R101 | Karachi -> Hyderabad | 08:00 AM | Rs.1200 | 40/40
+    2 | R102 | Karachi -> Sukkur | 09:30 AM | Rs.2000 | 36/36
+    3 | R103 | Hyderabad -> Mirpur Khas | 11:00 AM | Rs.800 | 32/32
+    4 | R104 | Karachi -> Lahore | 07:00 PM | Rs.5000 | 45/45
+    5 | R105 | Sukkur -> Hyderabad | 02:00 PM | Rs.1500 | 30/30
+    [main menu displayed]
+    Enter your choice: 8
+    Thank you for using the Smart Bus Reservation System. Goodbye!
+Matched        : Yes
+
+------------------------------------------------------------
+TC-06  Too many seats
+------------------------------------------------------------
+Input / action : Menu 3: R101 with 41 seats, then again with 1000 seats. Then Menu 4 and Menu 1 -> 1.
+Expected result: Both rejected; availability never becomes negative (R101 still 40/40, no bookings).
+Actual result  :
+    [main menu displayed]
+    Enter your choice: 3
+    
+    BOOK A TICKET
+    Enter passenger name: Ahmed
+    Enter passenger age: 24
+    Enter route ID (for example R101): R101
+    Enter number of seats: 41
+    Booking failed: only 40 seat(s) available on route R101.
+    [main menu displayed]
+    Enter your choice: 3
+    
+    BOOK A TICKET
+    Enter passenger name: Sara
+    Enter passenger age: 30
+    Enter route ID (for example R101): R101
+    Enter number of seats: 1000
+    Booking failed: only 40 seat(s) available on route R101.
+    [main menu displayed]
+    Enter your choice: 4
+    
+    MY BOOKINGS
+    No bookings found.
+    [main menu displayed]
+    Enter your choice: 1
+    
+    VIEW ROUTES
+    1. All routes
+    2. Only routes with seats available
+    3. Route schedule by departure city
+    Enter your choice: 1
+    
+    AVAILABLE BUS ROUTES
+    No. | Route | Journey | Depart | Fare | Seats
+    1 | R101 | Karachi -> Hyderabad | 08:00 AM | Rs.1200 | 40/40
+    2 | R102 | Karachi -> Sukkur | 09:30 AM | Rs.2000 | 36/36
+    3 | R103 | Hyderabad -> Mirpur Khas | 11:00 AM | Rs.800 | 32/32
+    4 | R104 | Karachi -> Lahore | 07:00 PM | Rs.5000 | 45/45
+    5 | R105 | Sukkur -> Hyderabad | 02:00 PM | Rs.1500 | 30/30
+    [main menu displayed]
+    Enter your choice: 8
+    Thank you for using the Smart Bus Reservation System. Goodbye!
+Matched        : Yes
+
+------------------------------------------------------------
+TC-07  Cancel confirmed booking
+------------------------------------------------------------
+Input / action : Book 2 seats on R101 (B1001); Menu 5 with B1001; Menu 4; Menu 1 -> 1.
+Expected result: Status becomes Cancelled, 2 seats restored, R101 back to 40, record still listed.
+Actual result  :
+    [main menu displayed]
+    Enter your choice: 3
+    
+    BOOK A TICKET
+    Enter passenger name: Ahmed
+    Enter passenger age: 24
+    Enter route ID (for example R101): R101
+    Enter number of seats: 2
+    
+    Booking confirmed!
+    Booking ID: B1001
+    Passenger: Ahmed
+    Route: R101 (Karachi -> Hyderabad)
+    Seats booked: 2
+    Fare per seat: Rs. 1200
+    Total fare: Rs. 2400
+    Status: Confirmed
+    [main menu displayed]
+    Enter your choice: 5
+    
+    CANCEL A BOOKING
+    Enter booking ID to cancel: B1001
+    Booking B1001 has been cancelled.
+    Seats restored: 2
+    Route R101 available seats: 40
+    [main menu displayed]
+    Enter your choice: 4
+    
+    MY BOOKINGS
+    No. | Booking | Passenger | Route | Seats | Fare | Status
+    1 | B1001 | Ahmed | R101 (Karachi -> Hyderabad) | 2 | Rs.2400 | Cancelled
+    [main menu displayed]
+    Enter your choice: 1
+    
+    VIEW ROUTES
+    1. All routes
+    2. Only routes with seats available
+    3. Route schedule by departure city
+    Enter your choice: 1
+    
+    AVAILABLE BUS ROUTES
+    No. | Route | Journey | Depart | Fare | Seats
+    1 | R101 | Karachi -> Hyderabad | 08:00 AM | Rs.1200 | 40/40
+    2 | R102 | Karachi -> Sukkur | 09:30 AM | Rs.2000 | 36/36
+    3 | R103 | Hyderabad -> Mirpur Khas | 11:00 AM | Rs.800 | 32/32
+    4 | R104 | Karachi -> Lahore | 07:00 PM | Rs.5000 | 45/45
+    5 | R105 | Sukkur -> Hyderabad | 02:00 PM | Rs.1500 | 30/30
+    [main menu displayed]
+    Enter your choice: 8
+    Thank you for using the Smart Bus Reservation System. Goodbye!
+Matched        : Yes
+
+------------------------------------------------------------
+TC-08  Cancel same booking again
+------------------------------------------------------------
+Input / action : Book 2 seats (B1001); cancel B1001 twice; Menu 1 -> 1.
+Expected result: Second attempt rejected; no extra seats restored (R101 stays 40/40, not 42).
+Actual result  :
+    [main menu displayed]
+    Enter your choice: 3
+    
+    BOOK A TICKET
+    Enter passenger name: Ahmed
+    Enter passenger age: 24
+    Enter route ID (for example R101): R101
+    Enter number of seats: 2
+    
+    Booking confirmed!
+    Booking ID: B1001
+    Passenger: Ahmed
+    Route: R101 (Karachi -> Hyderabad)
+    Seats booked: 2
+    Fare per seat: Rs. 1200
+    Total fare: Rs. 2400
+    Status: Confirmed
+    [main menu displayed]
+    Enter your choice: 5
+    
+    CANCEL A BOOKING
+    Enter booking ID to cancel: B1001
+    Booking B1001 has been cancelled.
+    Seats restored: 2
+    Route R101 available seats: 40
+    [main menu displayed]
+    Enter your choice: 5
+    
+    CANCEL A BOOKING
+    Enter booking ID to cancel: B1001
+    Booking B1001 is already cancelled. No seats were restored.
+    [main menu displayed]
+    Enter your choice: 1
+    
+    VIEW ROUTES
+    1. All routes
+    2. Only routes with seats available
+    3. Route schedule by departure city
+    Enter your choice: 1
+    
+    AVAILABLE BUS ROUTES
+    No. | Route | Journey | Depart | Fare | Seats
+    1 | R101 | Karachi -> Hyderabad | 08:00 AM | Rs.1200 | 40/40
+    2 | R102 | Karachi -> Sukkur | 09:30 AM | Rs.2000 | 36/36
+    3 | R103 | Hyderabad -> Mirpur Khas | 11:00 AM | Rs.800 | 32/32
+    4 | R104 | Karachi -> Lahore | 07:00 PM | Rs.5000 | 45/45
+    5 | R105 | Sukkur -> Hyderabad | 02:00 PM | Rs.1500 | 30/30
+    [main menu displayed]
+    Enter your choice: 8
+    Thank you for using the Smart Bus Reservation System. Goodbye!
+Matched        : Yes
+
+------------------------------------------------------------
+TC-09  Report with no bookings
+------------------------------------------------------------
+Input / action : Menu 7 on a fresh session.
+Expected result: All booking totals and revenue are zero; fully booked routes counted from route data (0).
+Actual result  :
+    [main menu displayed]
+    Enter your choice: 7
+    
+    BOOKING REPORT
+    Total bookings created: 0
+    Confirmed bookings: 0
+    Cancelled bookings: 0
+    Seats currently reserved: 0
+    Confirmed revenue: Rs. 0
+    Fully booked routes: 0
+    [main menu displayed]
+    Enter your choice: 8
+    Thank you for using the Smart Bus Reservation System. Goodbye!
+Matched        : Yes
+
+------------------------------------------------------------
+TC-10  Book all seats
+------------------------------------------------------------
+Input / action : Book 38 seats on R101, then exactly the remaining 2; Menu 6 -> 1; try one more booking; Menu 7.
+Expected result: Second booking succeeds; availability 0; status Fully Booked; extra booking rejected; report counts 1 fully booked route.
+Actual result  :
+    [main menu displayed]
+    Enter your choice: 3
+    
+    BOOK A TICKET
+    Enter passenger name: Ahmed
+    Enter passenger age: 24
+    Enter route ID (for example R101): R101
+    Enter number of seats: 38
+    
+    Booking confirmed!
+    Booking ID: B1001
+    Passenger: Ahmed
+    Route: R101 (Karachi -> Hyderabad)
+    Seats booked: 38
+    Fare per seat: Rs. 1200
+    Total fare: Rs. 45600
+    Status: Confirmed
+    [main menu displayed]
+    Enter your choice: 3
+    
+    BOOK A TICKET
+    Enter passenger name: Sara
+    Enter passenger age: 30
+    Enter route ID (for example R101): R101
+    Enter number of seats: 2
+    
+    Booking confirmed!
+    Booking ID: B1002
+    Passenger: Sara
+    Route: R101 (Karachi -> Hyderabad)
+    Seats booked: 2
+    Fare per seat: Rs. 1200
+    Total fare: Rs. 2400
+    Status: Confirmed
+    [main menu displayed]
+    Enter your choice: 6
+    
+    SEAT AVAILABILITY
+    1. All routes
+    2. Only routes with seats available
+    Enter your choice: 1
+    
+    Route | Journey | Available | Total | Status
+    R101 | Karachi -> Hyderabad | 0 | 40 | Fully Booked
+    R102 | Karachi -> Sukkur | 36 | 36 | Available
+    R103 | Hyderabad -> Mirpur Khas | 32 | 32 | Available
+    R104 | Karachi -> Lahore | 45 | 45 | Available
+    R105 | Sukkur -> Hyderabad | 30 | 30 | Available
+    [main menu displayed]
+    Enter your choice: 3
+    
+    BOOK A TICKET
+    Enter passenger name: Omar
+    Enter passenger age: 40
+    Enter route ID (for example R101): R101
+    Booking failed: route R101 is fully booked.
+    [main menu displayed]
+    Enter your choice: 7
+    
+    BOOKING REPORT
+    Total bookings created: 2
+    Confirmed bookings: 2
+    Cancelled bookings: 0
+    Seats currently reserved: 40
+    Confirmed revenue: Rs. 48000
+    Fully booked routes: 1
+    [main menu displayed]
+    Enter your choice: 8
+    Thank you for using the Smart Bus Reservation System. Goodbye!
+Matched        : Yes
+
+------------------------------------------------------------
+TC-11  Report after cancellation
+------------------------------------------------------------
+Input / action : Book 2 seats on R101 (B1001), 3 seats on R102 (B1002); cancel B1001; Menu 7.
+Expected result: Cancelled count increases; cancelled fare excluded: revenue is only R102's 3 x 2000 = Rs. 6000.
+Actual result  :
+    [main menu displayed]
+    Enter your choice: 3
+    
+    BOOK A TICKET
+    Enter passenger name: Ahmed
+    Enter passenger age: 24
+    Enter route ID (for example R101): R101
+    Enter number of seats: 2
+    
+    Booking confirmed!
+    Booking ID: B1001
+    Passenger: Ahmed
+    Route: R101 (Karachi -> Hyderabad)
+    Seats booked: 2
+    Fare per seat: Rs. 1200
+    Total fare: Rs. 2400
+    Status: Confirmed
+    [main menu displayed]
+    Enter your choice: 3
+    
+    BOOK A TICKET
+    Enter passenger name: Sara
+    Enter passenger age: 30
+    Enter route ID (for example R101): R102
+    Enter number of seats: 3
+    
+    Booking confirmed!
+    Booking ID: B1002
+    Passenger: Sara
+    Route: R102 (Karachi -> Sukkur)
+    Seats booked: 3
+    Fare per seat: Rs. 2000
+    Total fare: Rs. 6000
+    Status: Confirmed
+    [main menu displayed]
+    Enter your choice: 5
+    
+    CANCEL A BOOKING
+    Enter booking ID to cancel: B1001
+    Booking B1001 has been cancelled.
+    Seats restored: 2
+    Route R101 available seats: 40
+    [main menu displayed]
+    Enter your choice: 7
+    
+    BOOKING REPORT
+    Total bookings created: 2
+    Confirmed bookings: 1
+    Cancelled bookings: 1
+    Seats currently reserved: 3
+    Confirmed revenue: Rs. 6000
+    Fully booked routes: 0
+    [main menu displayed]
+    Enter your choice: 8
+    Thank you for using the Smart Bus Reservation System. Goodbye!
+Matched        : Yes
+
+------------------------------------------------------------
+TC-12  Invalid menu option
+------------------------------------------------------------
+Input / action : At the main menu type: abc, 99, 0, (blank), -1, 3.5, then 8.
+Expected result: A helpful error each time and the menu returns; no crash.
+Actual result  :
+    [main menu displayed]
+    Enter your choice: abc
+    Invalid input. Please enter a number from 1 to 8.
+    [main menu displayed]
+    Enter your choice: 99
+    Unsupported choice. Please enter a number from 1 to 8.
+    [main menu displayed]
+    Enter your choice: 0
+    Unsupported choice. Please enter a number from 1 to 8.
+    [main menu displayed]
+    Enter your choice: 
+    Invalid input. Please enter a number from 1 to 8.
+    [main menu displayed]
+    Enter your choice: -1
+    Invalid input. Please enter a number from 1 to 8.
+    [main menu displayed]
+    Enter your choice: 3.5
+    Invalid input. Please enter a number from 1 to 8.
+    [main menu displayed]
+    Enter your choice: 8
+    Thank you for using the Smart Bus Reservation System. Goodbye!
+Matched        : Yes
+
+============================================================
+SUMMARY: 12 of 12 test cases matched the expected result.
