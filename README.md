@@ -79,5 +79,3 @@ All data is kept **in memory only**. Bookings are **not saved** anywhere. When t
 - `main.py` - the application
 - `README.md` - this file
 - `test_cases.txt` - the 12 required test cases with real results
-- `demo_script.md` - a short script for explaining the project
-- `walkthrough.md` - a line-by-line walkthrough of `main.py`
